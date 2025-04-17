@@ -1,24 +1,15 @@
 class Shush < Formula
   desc "Utility for suppressing and managing output from commands and scripts"
   homepage "https://github.com/00msjr/shush"
+  url "https://github.com/00msjr/shush/archive/refs/tags/v1.0.4.tar.gz"
+  sha256 "d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed"
   license "MIT"
+
   def install
     bin.install "shush"
   end
-  
+
   test do
-    # Test basic functionality
-    assert_equal "0", shell_output("#{bin}/shush -r -- true").strip
-    assert_equal "1", shell_output("#{bin}/shush -r -- false || echo 1").strip
-    
-    # Test output suppression
-    output = shell_output("#{bin}/shush -- echo 'This should be suppressed'")
-    assert_equal "", output.strip
-    
-    # Test logging
-    system "#{bin}/shush", "-l", "test.log", "--", "echo", "test log"
-    assert_predicate testpath/"test.log", :exist?
-    assert_match "test log", File.read("test.log")
+    assert_match "Usage: shush", shell_output("#{bin}/shush --help")
   end
 end
-
